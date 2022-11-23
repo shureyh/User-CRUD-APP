@@ -4,6 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const bodyParser= require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -17,7 +18,7 @@ mongoose.connect(process.env.MONGO_DEV_URI, {
 
 
 //middleware
-app.use(express.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
 app.use(session({
   secret: "my secret key",
@@ -30,7 +31,7 @@ app.use((req, res, next) =>{
   delete req.session.message;
   next();
 });
-
+app.use(express.static("uploads"));
 //set template engine
 app.set("view engine", "ejs");
 
